@@ -1,5 +1,11 @@
 package ldgrp.RayTracingInOneWeekend.ch02;
 
+import ldgrp.RayTracingInOneWeekend.ch03.Vec3;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 public class PPMImage {
     /** The width of the image in pixels. */
     private final int width;
@@ -29,6 +35,11 @@ public class PPMImage {
         pixels[x][y][2] = b;
     }
 
+    public void setPixel(int x, int y, Vec3 v) {
+        setPixel(x, y, (int) (this.maxColorValue * v.e0()), (int) (this.maxColorValue * v.e1()), (int) (this.maxColorValue * v.e2()));
+    }
+
+
     /**
      * Draw a red-green gradient
      */
@@ -45,7 +56,7 @@ public class PPMImage {
         }
     }
 
-    public String write() {
+    public String serialize() {
         StringBuilder sb = new StringBuilder();
         // Write the header
         sb.append("P3\n");
@@ -68,5 +79,18 @@ public class PPMImage {
             }
         }
         return sb.toString();
+    }
+
+    public void writeToFile(String fileName) {
+        try {
+            var file = new File(fileName);
+            var writer = new PrintWriter(file);
+            writer.print(this.serialize());
+            writer.close();
+            System.out.println("Wrote file to: " + file.getAbsolutePath());
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + fileName);
+        }
+
     }
 }

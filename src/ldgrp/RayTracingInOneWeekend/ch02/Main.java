@@ -17,17 +17,6 @@ public class Main {
 
         PPMImage image = new PPMImage(256, 256);
         image.drawRG();
-
-        var imageString = image.write();
-
-        try {
-            var file = new File(fileName);
-            var writer = new PrintWriter(file);
-            writer.print(imageString);
-            writer.close();
-            System.out.println("Wrote file to: " + file.getAbsolutePath());
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + fileName);
-        }
+        image.writeToFile(fileName);
     }
 }

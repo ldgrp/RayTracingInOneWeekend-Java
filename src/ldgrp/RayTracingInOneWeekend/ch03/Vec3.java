@@ -1,10 +1,26 @@
 package ldgrp.RayTracingInOneWeekend.ch03;
 
-public record Vec3(double e0, double e1, double e2) {
-    public Vec3 {
-        if (Double.isNaN(e0) || Double.isNaN(e1) || Double.isNaN(e2)) {
-            throw new IllegalArgumentException("NaN");
-        }
+public class Vec3 {
+    protected final double e0;
+    protected final double e1;
+    protected final double e2;
+
+    public Vec3(double e0, double e1, double e2) {
+        this.e0 = e0;
+        this.e1 = e1;
+        this.e2 = e2;
+    }
+
+    public double e0() {
+        return e0;
+    }
+
+    public double e1() {
+        return e1;
+    }
+
+    public double e2() {
+        return e2;
     }
 
     public Vec3 add(Vec3 v) {
@@ -57,5 +73,10 @@ public record Vec3(double e0, double e1, double e2) {
 
     public Vec3 negate() {
         return new Vec3(-e0, -e1, -e2);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Vec3(%f %f %f)", e0, e1, e2);
     }
 }
