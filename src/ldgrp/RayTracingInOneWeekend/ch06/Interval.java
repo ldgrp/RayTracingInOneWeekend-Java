@@ -22,6 +22,11 @@ public class Interval {
         return t > min && t < max;
     }
 
+    public double clamp(double t) {
+        return Math.max(min, Math.min(max, t));
+    }
+
+
     public static Interval newEmpty() {
         return new Interval(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
     }

@@ -17,6 +17,8 @@ public class Camera {
     private final Vec3 horizontalDelta;
     private final Vec3 verticalDelta;
 
+    private final int samplesPerPixel = 100;
+
     public Camera(int imageWidth, int imageHeight) {
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
@@ -46,15 +48,32 @@ public class Camera {
 
         for (var row = 0; row < imageHeight; row++) {
             for (var col = 0; col < imageWidth; col++) {
-                var pixelPosition = pixelUpperLeftCorner.add(horizontalDelta.multiply(col)).add(verticalDelta.multiply(row));
-                var ray = new Ray(origin, pixelPosition.subtract(origin));
+                var pixelColor = new Vec3(0, 0, 0);
+                for (var sample = 0; sample < this.samplesPerPixel; sample++) {
+                    var ray = getRay(row, col);
+                    pixelColor = pixelColor.add(rayColor(ray, world));
+                }
 
-                var color = rayColor(ray, world);
-                image.setPixel(col, row, color);
+                pixelColor = pixelColor.divide(this.samplesPerPixel);
+                image.setPixel(col, row, pixelColor);
             }
         }
 
         image.writeToFile("image.ppm");
+    }
+
+    private Ray getRay(int row, int col) {
+        var pixelOrigin = pixelUpperLeftCorner.add(horizontalDelta.multiply(col)).add(verticalDelta.multiply(row));
+        var pixelOriginSample = pixelOrigin.add(pixelSampleSquare());
+
+        var rayDirection = pixelOriginSample.subtract(origin);
+        return new Ray(origin, rayDirection);
+    }
+
+    private Vec3 pixelSampleSquare() {
+        var x = -0.5 + Math.random();
+        var y = -0.5 + Math.random();
+        return horizontalDelta.multiply(x).add(verticalDelta.multiply(y));
     }
 
     private static Vec3 rayColor(Ray ray, Hittable world) {
