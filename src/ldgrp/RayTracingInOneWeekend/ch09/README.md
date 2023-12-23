@@ -1,0 +1,16 @@
+## Chapter 9
+
+![ch09_1.png](../../../../images/ch09_1.png)
+![ch09_2.png](../../../../images/ch09_2.png)
+![ch09_3.png](../../../../images/ch09_3.png)
+![ch09_4.png](../../../../images/ch09_4.png)
+![ch09_5_0.100000.png](../../../../images/ch09_5_0.100000.png)
+![ch09_5_0.300000.png](../../../../images/ch09_5_0.300000.png)
+![ch09_5_0.500000.png](../../../../images/ch09_5_0.500000.png)
+![ch09_5_0.700000.png](../../../../images/ch09_5_0.700000.png)
+![ch09_5_0.900000.png](../../../../images/ch09_5_0.900000.png)
+![ch09_5_gamma_corrected_0.100000.png](../../../../images/ch09_5_gamma_corrected_0.100000.png)
+![ch09_5_gamma_corrected_0.300000.png](../../../../images/ch09_5_gamma_corrected_0.300000.png)
+![ch09_5_gamma_corrected_0.500000.png](../../../../images/ch09_5_gamma_corrected_0.500000.png)
+![ch09_5_gamma_corrected_0.700000.png](../../../../images/ch09_5_gamma_corrected_0.700000.png)
+![ch09_5_gamma_corrected_0.900000.png](../../../../images/ch09_5_gamma_corrected_0.900000.png)

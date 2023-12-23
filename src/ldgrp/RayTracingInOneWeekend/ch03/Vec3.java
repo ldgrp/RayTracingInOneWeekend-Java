@@ -11,6 +11,18 @@ public class Vec3 {
         this.e2 = e2;
     }
 
+    public static Vec3 random() {
+        return new Vec3(Math.random(), Math.random(), Math.random());
+    }
+
+    public static Vec3 random(double min, double max) {
+        return new Vec3(
+            min + (max - min) * Math.random(),
+            min + (max - min) * Math.random(),
+            min + (max - min) * Math.random()
+        );
+    }
+
     public double e0() {
         return e0;
     }
@@ -57,6 +69,32 @@ public class Vec3 {
 
     public Vec3 unitVector() {
         return divide(length());
+    }
+
+    public static Vec3 randomInUnitSphere() {
+        while (true) {
+            var p = Vec3.random(-1, 1);
+            if (p.lengthSquared() >= 1) {
+                continue;
+            }
+            return p;
+        }
+    }
+
+    public static Vec3 randomUnitVector() {
+        var a = Math.random() * Math.PI * 2;
+        var z = -1 + 2 * Math.random();
+        var r = Math.sqrt(1 - z * z);
+        return new Vec3(r * Math.cos(a), r * Math.sin(a), z);
+    }
+
+    public static Vec3 randomOnHemisphere(Vec3 normal) {
+        var inUnitSphere = randomInUnitSphere();
+        if (inUnitSphere.dot(normal) > 0.0) {
+            return inUnitSphere;
+        } else {
+            return inUnitSphere.negate();
+        }
     }
 
     public double dot(Vec3 v) {

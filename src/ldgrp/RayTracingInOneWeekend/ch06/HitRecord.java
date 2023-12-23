@@ -15,6 +15,10 @@ public class HitRecord {
         this.t = t;
     }
 
+    public Point3 getPoint() {
+        return point;
+    }
+
     public Vec3 getNormal() {
         return normal;
     }

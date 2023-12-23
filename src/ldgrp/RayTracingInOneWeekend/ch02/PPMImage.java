@@ -36,7 +36,7 @@ public class PPMImage {
     }
 
     public void setPixel(int x, int y, Vec3 v) {
-        setPixel(x, y, (int) (this.maxColorValue * v.e0()), (int) (this.maxColorValue * v.e1()), (int) (this.maxColorValue * v.e2()));
+        setPixel(x, y, (int) (this.maxColorValue * Math.sqrt(v.e0())), (int) (this.maxColorValue * Math.sqrt(v.e1())), (int) (this.maxColorValue * Math.sqrt(v.e2())));
     }
 
 
