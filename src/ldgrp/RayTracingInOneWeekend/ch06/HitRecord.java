@@ -3,15 +3,18 @@ package ldgrp.RayTracingInOneWeekend.ch06;
 import ldgrp.RayTracingInOneWeekend.ch03.Point3;
 import ldgrp.RayTracingInOneWeekend.ch03.Vec3;
 import ldgrp.RayTracingInOneWeekend.ch04.Ray;
+import ldgrp.RayTracingInOneWeekend.ch10.Material;
 
 public class HitRecord {
     private final Point3 point;
     private final double t;
     private Vec3 normal;
+    private Material material;
 
-    public HitRecord(Point3 point, Vec3 normal, double t) {
+    public HitRecord(Point3 point, Vec3 normal, Material material, double t) {
         this.point = point;
         this.normal = normal;
+        this.material = material;
         this.t = t;
     }
 
@@ -21,6 +24,10 @@ public class HitRecord {
 
     public Vec3 getNormal() {
         return normal;
+    }
+
+    public Material getMaterial() {
+        return material;
     }
 
     public double getT() {

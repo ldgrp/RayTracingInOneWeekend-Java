@@ -2,14 +2,18 @@ package ldgrp.RayTracingInOneWeekend.ch06;
 
 import ldgrp.RayTracingInOneWeekend.ch03.Point3;
 import ldgrp.RayTracingInOneWeekend.ch04.Ray;
+import ldgrp.RayTracingInOneWeekend.ch10.Material;
 
 public class Sphere implements Hittable {
     private final Point3 center;
     private final double radius;
 
-    public Sphere(Point3 center, double radius) {
+    private final Material material;
+
+    public Sphere(Point3 center, double radius, Material material) {
         this.center = center;
         this.radius = radius;
+        this.material = material;
     }
 
     @Override
@@ -39,7 +43,7 @@ public class Sphere implements Hittable {
         var point = ray.at(t);
         var outwardNormal = point.subtract(center).divide(radius);
 
-        var rec = new HitRecord(point, outwardNormal, t);
+        var rec = new HitRecord(point, outwardNormal, this.material, t);
         rec.setFaceNormal(ray, outwardNormal);
         return rec;
     }

@@ -63,6 +63,11 @@ public class Vec3 {
         return e0 * e0 + e1 * e1 + e2 * e2;
     }
 
+    public boolean nearZero() {
+        var epsilon = 1e-8;
+        return Math.abs(e0) < epsilon && Math.abs(e1) < epsilon && Math.abs(e2) < epsilon;
+    }
+
     public double length() {
         return Math.sqrt(lengthSquared());
     }
@@ -95,6 +100,10 @@ public class Vec3 {
         } else {
             return inUnitSphere.negate();
         }
+    }
+
+    public static Vec3 reflect(Vec3 v, Vec3 normal) {
+        return v.subtract(normal.multiply(v.dot(normal)).multiply(2));
     }
 
     public double dot(Vec3 v) {

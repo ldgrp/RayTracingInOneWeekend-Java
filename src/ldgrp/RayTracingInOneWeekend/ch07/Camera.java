@@ -17,12 +17,14 @@ public class Camera {
     private final Vec3 horizontalDelta;
     private final Vec3 verticalDelta;
 
-    private final int samplesPerPixel = 100;
-    private final int maxDepth = 10;
+    private final int samplesPerPixel;
+    private final int maxDepth;
 
-    public Camera(int imageWidth, int imageHeight) {
+    public Camera(int imageWidth, int imageHeight, int samplesPerPixel, int maxDepth) {
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
+        this.samplesPerPixel = samplesPerPixel;
+        this.maxDepth = maxDepth;
         this.aspectRatio = (double) imageWidth / imageHeight;
         this.origin = new Point3(0, 0, 0);
 
@@ -45,26 +47,22 @@ public class Camera {
     }
 
     public void render(Hittable world) {
-        double[] reflectances = { 0.1, 0.3, 0.5, 0.7, 0.9 };
-        for (var reflectance: reflectances) {
-            PPMImage image = new PPMImage(imageWidth, imageHeight);
+        PPMImage image = new PPMImage(imageWidth, imageHeight);
 
-            for (var row = 0; row < imageHeight; row++) {
-                for (var col = 0; col < imageWidth; col++) {
-                    var pixelColor = new Vec3(0, 0, 0);
-                    for (var sample = 0; sample < this.samplesPerPixel; sample++) {
-                        var ray = getRay(row, col);
-                        pixelColor = pixelColor.add(rayColor(ray, 0, world, reflectance));
-                    }
-
-                    pixelColor = pixelColor.divide(this.samplesPerPixel);
-                    image.setPixel(col, row, pixelColor);
+        for (var row = 0; row < imageHeight; row++) {
+            for (var col = 0; col < imageWidth; col++) {
+                var pixelColor = new Vec3(0, 0, 0);
+                for (var sample = 0; sample < this.samplesPerPixel; sample++) {
+                    var ray = getRay(row, col);
+                    pixelColor = pixelColor.add(rayColor(ray, 0, world));
                 }
+
+                pixelColor = pixelColor.divide(this.samplesPerPixel);
+                image.setPixel(col, row, pixelColor);
             }
-
-            image.writeToFile(String.format("ch09_5_gamma_corrected_%02f.ppm", reflectance));
-
         }
+
+        image.writeToFile("ch10.ppm");
     }
 
     private Ray getRay(int row, int col) {
@@ -81,17 +79,18 @@ public class Camera {
         return horizontalDelta.multiply(x).add(verticalDelta.multiply(y));
     }
 
-    private Vec3 rayColor(Ray ray, int depth, Hittable world, double reflectance) {
+    private Vec3 rayColor(Ray ray, int depth, Hittable world) {
         if (depth >= this.maxDepth) {
             return new Vec3(0, 0, 0);
         }
 
         var hitRecord = world.hit(ray, new Interval(0.001, Double.POSITIVE_INFINITY));
         if (hitRecord != null) {
-            var normal = hitRecord.getNormal().add(Vec3.randomUnitVector());
-            var direction = Vec3.randomOnHemisphere(normal);
-            var sampledRay = new Ray(hitRecord.getPoint(), direction);
-            return rayColor(sampledRay, depth+1, world, reflectance).multiply(reflectance);
+            var scatteredRecord = hitRecord.getMaterial().scatter(ray, hitRecord);
+            if (scatteredRecord == null) {
+                return new Vec3(0, 0, 0);
+            }
+            return scatteredRecord.attenuation().multiply(rayColor(scatteredRecord.scattered(), depth+1, world));
         }
         var unitDirection = ray.direction().unitVector();
         var a = 0.5 * (unitDirection.e1() + 1.0);
