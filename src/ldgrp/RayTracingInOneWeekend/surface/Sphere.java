@@ -1,8 +1,9 @@
-package ldgrp.RayTracingInOneWeekend.ch06;
+package ldgrp.RayTracingInOneWeekend.surface;
 
-import ldgrp.RayTracingInOneWeekend.ch03.Point3;
-import ldgrp.RayTracingInOneWeekend.ch04.Ray;
-import ldgrp.RayTracingInOneWeekend.ch10.Material;
+import ldgrp.RayTracingInOneWeekend.utilities.Interval;
+import ldgrp.RayTracingInOneWeekend.utilities.Point3;
+import ldgrp.RayTracingInOneWeekend.material.Material;
+import ldgrp.RayTracingInOneWeekend.utilities.Ray;
 
 public class Sphere implements Hittable {
     private final Point3 center;

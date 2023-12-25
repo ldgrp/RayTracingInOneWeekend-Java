@@ -1,4 +1,4 @@
-package ldgrp.RayTracingInOneWeekend.ch06;
+package ldgrp.RayTracingInOneWeekend.utilities;
 
 public class Interval {
     public final double min;

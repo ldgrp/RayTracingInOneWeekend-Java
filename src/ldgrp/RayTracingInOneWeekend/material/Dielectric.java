@@ -1,10 +1,8 @@
-package ldgrp.RayTracingInOneWeekend.ch11;
+package ldgrp.RayTracingInOneWeekend.material;
 
-import ldgrp.RayTracingInOneWeekend.ch03.Vec3;
-import ldgrp.RayTracingInOneWeekend.ch04.Ray;
-import ldgrp.RayTracingInOneWeekend.ch06.HitRecord;
-import ldgrp.RayTracingInOneWeekend.ch10.Material;
-import ldgrp.RayTracingInOneWeekend.ch10.ScatterRecord;
+import ldgrp.RayTracingInOneWeekend.surface.HitRecord;
+import ldgrp.RayTracingInOneWeekend.utilities.Ray;
+import ldgrp.RayTracingInOneWeekend.utilities.Vec3;
 
 public class Dielectric implements Material {
     private double indexOfRefraction;
@@ -39,6 +37,4 @@ public class Dielectric implements Material {
         r0 = r0*r0;
         return r0 + (1-r0) * Math.pow((1-cosine), 5);
     }
-
-
 }

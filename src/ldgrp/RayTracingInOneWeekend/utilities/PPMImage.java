@@ -1,6 +1,6 @@
-package ldgrp.RayTracingInOneWeekend.ch02;
+package ldgrp.RayTracingInOneWeekend.utilities;
 
-import ldgrp.RayTracingInOneWeekend.ch03.Vec3;
+import ldgrp.RayTracingInOneWeekend.utilities.Vec3;
 
 import java.io.File;
 import java.io.FileNotFoundException;

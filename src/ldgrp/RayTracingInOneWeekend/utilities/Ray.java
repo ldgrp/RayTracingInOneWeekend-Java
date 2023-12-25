@@ -1,7 +1,7 @@
-package ldgrp.RayTracingInOneWeekend.ch04;
+package ldgrp.RayTracingInOneWeekend.utilities;
 
-import ldgrp.RayTracingInOneWeekend.ch03.Point3;
-import ldgrp.RayTracingInOneWeekend.ch03.Vec3;
+import ldgrp.RayTracingInOneWeekend.utilities.Point3;
+import ldgrp.RayTracingInOneWeekend.utilities.Vec3;
 
 /**
  * A ray is a function:

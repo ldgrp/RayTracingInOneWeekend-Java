@@ -1,11 +1,7 @@
-package ldgrp.RayTracingInOneWeekend.ch07;
+package ldgrp.RayTracingInOneWeekend;
 
-import ldgrp.RayTracingInOneWeekend.ch02.PPMImage;
-import ldgrp.RayTracingInOneWeekend.ch03.Point3;
-import ldgrp.RayTracingInOneWeekend.ch03.Vec3;
-import ldgrp.RayTracingInOneWeekend.ch04.Ray;
-import ldgrp.RayTracingInOneWeekend.ch06.Hittable;
-import ldgrp.RayTracingInOneWeekend.ch06.Interval;
+import ldgrp.RayTracingInOneWeekend.surface.Hittable;
+import ldgrp.RayTracingInOneWeekend.utilities.*;
 
 public class Camera {
     private final int imageWidth;
@@ -61,7 +57,7 @@ public class Camera {
         this.defocusDiskV = v.multiply(defocusRadius);
     }
 
-    public void render(Hittable world) {
+    public void render(Hittable world, String fileName) {
         PPMImage image = new PPMImage(imageWidth, imageHeight);
 
         for (var row = 0; row < imageHeight; row++) {
@@ -77,7 +73,7 @@ public class Camera {
             }
         }
 
-        image.writeToFile("ch12_2_2.ppm");
+        image.writeToFile(fileName);
     }
 
     private Ray getRay(int row, int col) {

@@ -1,4 +1,4 @@
-package ldgrp.RayTracingInOneWeekend.ch03;
+package ldgrp.RayTracingInOneWeekend.utilities;
 
 public class Vec3 {
     protected final double e0;

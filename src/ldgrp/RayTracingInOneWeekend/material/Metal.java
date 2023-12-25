@@ -1,8 +1,8 @@
-package ldgrp.RayTracingInOneWeekend.ch10;
+package ldgrp.RayTracingInOneWeekend.material;
 
-import ldgrp.RayTracingInOneWeekend.ch03.Vec3;
-import ldgrp.RayTracingInOneWeekend.ch04.Ray;
-import ldgrp.RayTracingInOneWeekend.ch06.HitRecord;
+import ldgrp.RayTracingInOneWeekend.surface.HitRecord;
+import ldgrp.RayTracingInOneWeekend.utilities.Ray;
+import ldgrp.RayTracingInOneWeekend.utilities.Vec3;
 
 public class Metal implements Material {
     private Vec3 albedo;

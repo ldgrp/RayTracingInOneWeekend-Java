@@ -1,6 +1,7 @@
-package ldgrp.RayTracingInOneWeekend.ch06;
+package ldgrp.RayTracingInOneWeekend.surface;
 
-import ldgrp.RayTracingInOneWeekend.ch04.Ray;
+import ldgrp.RayTracingInOneWeekend.utilities.Interval;
+import ldgrp.RayTracingInOneWeekend.utilities.Ray;
 
 import java.util.ArrayList;
 

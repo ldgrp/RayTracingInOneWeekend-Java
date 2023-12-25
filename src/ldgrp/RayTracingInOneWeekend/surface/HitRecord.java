@@ -1,9 +1,9 @@
-package ldgrp.RayTracingInOneWeekend.ch06;
+package ldgrp.RayTracingInOneWeekend.surface;
 
-import ldgrp.RayTracingInOneWeekend.ch03.Point3;
-import ldgrp.RayTracingInOneWeekend.ch03.Vec3;
-import ldgrp.RayTracingInOneWeekend.ch04.Ray;
-import ldgrp.RayTracingInOneWeekend.ch10.Material;
+import ldgrp.RayTracingInOneWeekend.utilities.Point3;
+import ldgrp.RayTracingInOneWeekend.utilities.Ray;
+import ldgrp.RayTracingInOneWeekend.utilities.Vec3;
+import ldgrp.RayTracingInOneWeekend.material.Material;
 
 public class HitRecord {
     private final Point3 point;

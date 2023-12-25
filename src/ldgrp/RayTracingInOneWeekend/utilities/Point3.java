@@ -1,4 +1,4 @@
-package ldgrp.RayTracingInOneWeekend.ch03;
+package ldgrp.RayTracingInOneWeekend.utilities;
 
 public class Point3 extends Vec3 {
     public Point3(Vec3 vec3) {
