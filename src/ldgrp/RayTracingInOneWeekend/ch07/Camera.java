@@ -20,29 +20,38 @@ public class Camera {
     private final int samplesPerPixel;
     private final int maxDepth;
 
-    public Camera(int imageWidth, int imageHeight, int samplesPerPixel, int maxDepth) {
+    private final Vec3 u, v, w;
+
+    public Camera(int imageWidth, int imageHeight, int samplesPerPixel, int maxDepth, double verticalFov, Point3 lookFrom, Point3 lookAt, Vec3 vUp) {
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
         this.samplesPerPixel = samplesPerPixel;
         this.maxDepth = maxDepth;
         this.aspectRatio = (double) imageWidth / imageHeight;
-        this.origin = new Point3(0, 0, 0);
+
+        this.origin = lookFrom;
 
         // Camera
-        var focalLength = 1.0;
-        var viewportHeight = 2.0;
+        var focalLength = (lookFrom.subtract(lookAt)).length();
+        var theta = Math.toRadians(verticalFov);
+        var height = Math.tan(theta / 2);
+        var viewportHeight = 2 * height * focalLength;
         var viewportWidth = aspectRatio * viewportHeight;
 
+        this.w = lookFrom.subtract(lookAt).unitVector();
+        this.u = vUp.cross(w).unitVector();
+        this.v = w.cross(u);
+
         // Viewport basis vectors
-        var horizontal = new Vec3(viewportWidth, 0, 0);
-        var vertical = new Vec3(0, -viewportHeight, 0);
+        var horizontal = u.multiply(viewportWidth);
+        var vertical = v.negate().multiply(viewportHeight);
 
         // Delta
         this.horizontalDelta = horizontal.divide(imageWidth);
         this.verticalDelta = vertical.divide(imageHeight);
 
         // Upper left corner of the viewport
-        this.upperLeftCorner = origin.subtract(horizontal.divide(2)).subtract(vertical.divide(2)).subtract(new Vec3(0, 0, focalLength));
+        this.upperLeftCorner = origin.subtract(w.multiply(focalLength)).subtract(horizontal.divide(2)).subtract(vertical.divide(2));
         this.pixelUpperLeftCorner = horizontalDelta.add(verticalDelta).multiply(0.5).add(upperLeftCorner);
     }
 
@@ -62,7 +71,7 @@ public class Camera {
             }
         }
 
-        image.writeToFile("ch11_5.ppm");
+        image.writeToFile("ch12_2_2.ppm");
     }
 
     private Ray getRay(int row, int col) {
