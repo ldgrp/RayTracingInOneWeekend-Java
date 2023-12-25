@@ -62,7 +62,7 @@ public class Camera {
             }
         }
 
-        image.writeToFile("ch10.ppm");
+        image.writeToFile("ch11_5.ppm");
     }
 
     private Ray getRay(int row, int col) {

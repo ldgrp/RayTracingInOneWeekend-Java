@@ -10,6 +10,7 @@ public class HitRecord {
     private final double t;
     private Vec3 normal;
     private Material material;
+    private boolean frontFace;
 
     public HitRecord(Point3 point, Vec3 normal, Material material, double t) {
         this.point = point;
@@ -34,8 +35,12 @@ public class HitRecord {
         return t;
     }
 
+    public boolean getFrontFace() {
+        return frontFace;
+    }
+
     public void setFaceNormal(Ray ray, Vec3 outwardNormal) {
-        boolean frontFace = ray.direction().dot(outwardNormal) < 0;
+        this.frontFace = ray.direction().dot(outwardNormal) < 0;
         this.normal = frontFace ? outwardNormal : outwardNormal.negate();
     }
 }

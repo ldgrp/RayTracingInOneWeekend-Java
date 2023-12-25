@@ -106,6 +106,13 @@ public class Vec3 {
         return v.subtract(normal.multiply(v.dot(normal)).multiply(2));
     }
 
+    public static Vec3 refract(Vec3 uv, Vec3 normal, double etaiOverEtat) {
+        var cosTheta = Math.min(uv.negate().dot(normal), 1);
+        var rOutPerpendicular = uv.add(normal.multiply(cosTheta)).multiply(etaiOverEtat);
+        var rOutParallel = normal.multiply(-Math.sqrt(Math.abs(1 - rOutPerpendicular.lengthSquared())));
+        return rOutPerpendicular.add(rOutParallel);
+    }
+
     public double dot(Vec3 v) {
         return e0 * v.e0 + e1 * v.e1 + e2 * v.e2;
     }
