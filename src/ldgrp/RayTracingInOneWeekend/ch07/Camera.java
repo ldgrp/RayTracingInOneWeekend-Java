@@ -20,9 +20,11 @@ public class Camera {
     private final int samplesPerPixel;
     private final int maxDepth;
 
-    private final Vec3 u, v, w;
+    private final Vec3 defocusDiskU;
+    private final Vec3 defocusDiskV;
+    private final double defocusAngle;
 
-    public Camera(int imageWidth, int imageHeight, int samplesPerPixel, int maxDepth, double verticalFov, Point3 lookFrom, Point3 lookAt, Vec3 vUp) {
+    public Camera(int imageWidth, int imageHeight, int samplesPerPixel, int maxDepth, double verticalFov, Point3 lookFrom, Point3 lookAt, Vec3 vUp, double defocusAngle, double focusDist) {
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
         this.samplesPerPixel = samplesPerPixel;
@@ -32,15 +34,14 @@ public class Camera {
         this.origin = lookFrom;
 
         // Camera
-        var focalLength = (lookFrom.subtract(lookAt)).length();
         var theta = Math.toRadians(verticalFov);
         var height = Math.tan(theta / 2);
-        var viewportHeight = 2 * height * focalLength;
+        var viewportHeight = 2 * height * focusDist;
         var viewportWidth = aspectRatio * viewportHeight;
 
-        this.w = lookFrom.subtract(lookAt).unitVector();
-        this.u = vUp.cross(w).unitVector();
-        this.v = w.cross(u);
+        var w = lookFrom.subtract(lookAt).unitVector();
+        var u = vUp.cross(w).unitVector();
+        var v = w.cross(u);
 
         // Viewport basis vectors
         var horizontal = u.multiply(viewportWidth);
@@ -51,8 +52,13 @@ public class Camera {
         this.verticalDelta = vertical.divide(imageHeight);
 
         // Upper left corner of the viewport
-        this.upperLeftCorner = origin.subtract(w.multiply(focalLength)).subtract(horizontal.divide(2)).subtract(vertical.divide(2));
+        this.upperLeftCorner = origin.subtract(w.multiply(focusDist)).subtract(horizontal.divide(2)).subtract(vertical.divide(2));
         this.pixelUpperLeftCorner = horizontalDelta.add(verticalDelta).multiply(0.5).add(upperLeftCorner);
+
+        this.defocusAngle = defocusAngle;
+        var defocusRadius = Math.tan(Math.toRadians(defocusAngle) / 2) * focusDist;
+        this.defocusDiskU = u.multiply(defocusRadius);
+        this.defocusDiskV = v.multiply(defocusRadius);
     }
 
     public void render(Hittable world) {
@@ -78,8 +84,14 @@ public class Camera {
         var pixelOrigin = pixelUpperLeftCorner.add(horizontalDelta.multiply(col)).add(verticalDelta.multiply(row));
         var pixelOriginSample = pixelOrigin.add(pixelSampleSquare());
 
-        var rayDirection = pixelOriginSample.subtract(origin);
-        return new Ray(origin, rayDirection);
+        var rayOrigin = defocusAngle <= 0 ? origin : defocusDiskSample();
+        var rayDirection = pixelOriginSample.subtract(rayOrigin);
+        return new Ray(rayOrigin, rayDirection);
+    }
+
+    private Point3 defocusDiskSample() {
+        var p = Vec3.randomInUnitDisk();
+        return new Point3(origin.add(defocusDiskU.multiply(p.e0())).add(defocusDiskV.multiply(p.e1())));
     }
 
     private Vec3 pixelSampleSquare() {

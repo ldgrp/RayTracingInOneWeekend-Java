@@ -76,6 +76,15 @@ public class Vec3 {
         return divide(length());
     }
 
+    public static Vec3 randomInUnitDisk() {
+        while (true) {
+            var p = new Vec3(Math.random(), Math.random(), 0).multiply(2).subtract(new Vec3(1, 1, 0));
+            if (p.lengthSquared() < 1) {
+                return p;
+            }
+        }
+    }
+
     public static Vec3 randomInUnitSphere() {
         while (true) {
             var p = Vec3.random(-1, 1);

@@ -22,7 +22,7 @@ public class Main {
         world.add(new Sphere(new Point3(-1, 0, -1), -0.4, materialLeft));
         world.add(new Sphere(new Point3(1, 0, -1), 0.5, materialRight));
 
-        var camera = new Camera(400, 225, 100, 50, 20, new Point3(-2, 2, 1), new Point3(0, 0, -1), new Vec3(0, 1, 0));
+        var camera = new Camera(400, 225, 100, 50, 20, new Point3(-2, 2, 1), new Point3(0, 0, -1), new Vec3(0, 1, 0), 10, 3.4);
         camera.render(world);
     }
 }
